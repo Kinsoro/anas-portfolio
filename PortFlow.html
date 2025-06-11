@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anas Sadki - Terminal Portfolio</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, #1a0b2e 0%, #2d1b4e 25%, #4a2c6a 50%, #3d1a5b 75%, #2a1145 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(147, 51, 234, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            min-height: 100vh;
+        }
+        
+        .panel {
+            background: rgba(30, 15, 50, 0.8);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header {
+            grid-column: 1 / -1;
+            background: rgba(20, 10, 40, 0.9);
+            border: 1px solid rgba(147, 51, 234, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 25px;
+            margin-bottom: 20px;
+        }
+        
+        .terminal-prompt {
+            color: #9333ea;
+            font-weight: 600;
+        }
+        
+        .cursor {
+            background: #9333ea;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        .time {
+            color: #a855f7;
+            font-weight: 500;
+        }
+        
+        .section-title {
+            color: #a855f7;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title::before {
+            content: '[';
+            color: #9333ea;
+        }
+        
+        .section-title::after {
+            content: ']';
+            color: #9333ea;
+        }
+        
+        .skill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .skill-name {
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+        
+        .skill-percentage {
+            color: #a855f7;
+            font-weight: 600;
+        }
+        
+        .skill-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(147, 51, 234, 0.2);
+            border-radius: 3px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #9333ea, #a855f7);
+            border-radius: 3px;
+            transition: width 2s ease;
+            animation: fillAnimation 2s ease-in-out;
+        }
+        
+        @keyframes fillAnimation {
+            from { width: 0; }
+        }
+        
+        .about-text, .philosophy-text, .roadmap-text {
+            line-height: 1.6;
+            color: #c0c0c0;
+            font-size: 14px;
+        }
+        
+        .highlight {
+            color: #a855f7;
+            font-weight: 600;
+        }
+        
+        .quote-section {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(168, 85, 247, 0.1));
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        
+        .quote {
+            font-style: italic;
+            color: #a855f7;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .author {
+            color: #c0c0c0;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(147, 51, 234, 0.1);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            background: rgba(147, 51, 234, 0.2);
+            transform: translateX(5px);
+        }
+        
+        .contact-icon {
+            color: #a855f7;
+            font-weight: 600;
+        }
+        
+        .system-stats {
+            margin-bottom: 20px;
+        }
+        
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        
+        .stat-label {
+            color: #c0c0c0;
+        }
+        
+        .stat-value {
+            color: #a855f7;
+            font-weight: 600;
+        }
+        
+        .network-stat {
+            color: #10b981;
+        }
+        
+        .network-stat.down {
+            color: #ef4444;
+        }
+        
+        .process-table {
+            width: 100%;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        
+        .process-table th,
+        .process-table td {
+            text-align: left;
+            padding: 5px 8px;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.2);
+        }
+        
+        .process-table th {
+            color: #a855f7;
+            font-weight: 600;
+        }
+        
+        .process-table td {
+            color: #c0c0c0;
+            font-size: 11px;
+        }
+        
+        .roadmap-item {
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 2px solid #9333ea;
+            position: relative;
+        }
+        
+        .roadmap-item::before {
+            content: '▶';
+            position: absolute;
+            left: -8px;
+            color: #a855f7;
+        }
+        
+        .roadmap-title {
+            color: #a855f7;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .roadmap-desc {
+            color: #c0c0c0;
+            font-size: 13px;
+        }
+        
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+        
+        .typing-animation {
+            overflow: hidden;
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #a855f7; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="terminal-prompt">
+                ~/ hello, i'm Anas Sadki and i'm a <span class="cursor">|</span>
+            </div>
+            <div class="time" id="currentTime">18:32:39</div>
+        </div>
+        
+        <div class="panel">
+            <div class="section-title">skills</div>
+            <div class="skill-item">
+                <span class="skill-name">C</span>
+                <span class="skill-percentage">70%</span>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-fill" style="width: 70%"></div>
+            </div>
+            
+            <div class="skill-item">
+                <span class="skill-name">Shell</span>
+                <span class="skill-percentage">89%</span>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-fill" style="width: 89%"></div>
+            </div>
+            
+            <div class="skill-item">
+                <span class="skill-name">C++</span>
+                <span class="skill-percentage">8%</span>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-fill" style="width: 8%"></div>
+            </div>
+            
+            <div class="skill-item">
+                <span class="skill-name">HTML</span>
+                <span class="skill-percentage">0%</span>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-fill" style="width: 0%"></div>
+            </div>
+            
+            <div class="skill-item">
+                <span class="skill-name">CSS</span>
+                <span class="skill-percentage">0%</span>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-fill" style="width: 0%"></div>
+            </div>
+            
+            <div class="skill-item">
+                <span class="skill-name">JS</span>
+                <span class="skill-percentage">0%</span>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-fill" style="width: 0%"></div>
+            </div>
+            
+            <div class="skill-item">
+                <span class="skill-name">Prompter</span>
+                <span class="skill-percentage">30%</span>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-fill" style="width: 30%"></div>
+            </div>
+            
+            <div class="skill-item">
+                <span class="skill-name">ctrl+c/ctrl+v</span>
+                <span class="skill-percentage">100%</span>
+            </div>
+            <div class="skill-bar">
+                <div class="skill-fill" style="width: 100%"></div>
+            </div>
+            
+            <div class="system-stats">
+                <div class="section-title" style="margin-top: 25px;">Usage</div>
+                <div class="stat-row">
+                    <span class="stat-label">CPU Usage</span>
+                    <span class="stat-value">34.3%</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Memory</span>
+                    <span class="stat-value">59.0% (12.1/16.0 GB)</span>
+                </div>
+                
+                <div class="stat-row" style="margin-top: 15px;">
+                    <span class="stat-label">Network I/O</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">↑ 3.63 Mb/s</span>
+                    <span class="network-stat">Total UP: 1.23 GB</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">↓ 5.29 Mb/s</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="panel">
+            <div class="section-title">whoami</div>
+            <div class="section-title" style="font-size: 16px; margin-bottom: 10px;">About Me</div>
+            <div class="about-text">
+                I'm a <span class="highlight">driven and ambitious student</span> from Oujda, Morocco, with a strong passion for <span class="highlight">computer science and problem-solving</span>. Currently preparing to join <span class="highlight">École 1337 in Rabat</span>, I'm focused on developing advanced coding and algorithmic thinking skills. I have a solid background in <span class="highlight">philosophy and mathematics</span>, and I'm actively working to strengthen my knowledge in physics and chemistry. I'm also exploring flexible job opportunities to support myself while studying, aiming for a balance between <span class="highlight">education and financial independence</span>. I'm disciplined in managing my time, with a preference for structured study hours and a commitment to <span class="highlight">personal growth</span>.
+            </div>
+            
+            <div class="quote-section">
+                <div class="quote">"Simplicity is prerequisite for reliability."</div>
+                <div class="author">- Edsger W. Dijkstra</div>
+            </div>
+            
+            <div class="section-title" style="font-size: 16px; margin-bottom: 10px;">My Philosophy</div>
+            <div class="philosophy-text">
+                <span class="highlight">Ambitious, curious, and inventive</span>, I'm a lifelong learner and problem-solver who thrives on challenges and new opportunities. With a <span class="highlight">strong sense of determination</span> and an analytical mind, I'm eager to push the boundaries of knowledge in my chosen field. I believe in the <span class="highlight">power of imagination and creativity</span> to drive innovation and create lasting impact.
+            </div>
+            
+            <table class="process-table">
+                <thead>
+                    <tr>
+                        <th>Processes</th>
+                        <th>COMMAND</th>
+                        <th>Disk Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>3.3 kernel_task</td>
+                        <td>/dev/sda1 150G 59%</td>
+                    </tr>
+                    <tr>
+                        <td>4.0 portfolio.js</td>
+                        <td>/dev/sdb1 80G 17%</td>
+                    </tr>
+                    <tr>
+                        <td>2.1 sshd</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="panel">
+            <div class="section-title">Roadmap</div>
+            <div class="roadmap-text">
+                <div class="roadmap-title">University of the People</div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-title">Computer Science</div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-title">solve 300 problems</div>
+                </div>
+                
+                <div class="roadmap-item">
+                    <div class="roadmap-title">cybersec*</div>
+                </div>
+                
+                <div class="section-title" style="margin-top: 25px;">Current Focus</div>
+                <div class="roadmap-desc" style="margin-bottom: 10px;">C: Algorithms, Linux, C++</div>
+                <div class="roadmap-desc" style="margin-bottom: 10px;">Shell & bash Scripting & Automation</div>
+                <div class="roadmap-desc" style="margin-bottom: 10px;"><span class="highlight">Kali Linux</span></div>
+                <div class="roadmap-desc" style="margin-bottom: 10px;"><span class="highlight">Parrot OS</span></div>
+                <div class="roadmap-desc" style="margin-bottom: 10px;"><span class="highlight">Ubuntu</span></div>
+                <div class="roadmap-desc" style="margin-bottom: 10px;"><span class="highlight">Debian</span></div>
+                
+                <div class="section-title" style="margin-top: 25px;">Future Interests</div>
+                <div class="roadmap-desc" style="margin-bottom: 10px;">AI & Machine Learning</div>
+                <div class="roadmap-desc">CEO</div>
+            </div>
+            
+            <div class="section-title" style="margin-top: 25px;">contact</div>
+            <div class="contact-item">
+                <span class="contact-icon">🐙</span>
+                <span>GitHub</span>
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon">💬</span>
+                <span>Discord</span>
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon">📷</span>
+                <span>Instagram</span>
+            </div>
+            <div class="contact-item">
+                <span class="contact-icon">✉️</span>
+                <span>Gmail</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('currentTime').textContent = timeString;
+        }
+        
+        updateTime();
+        setInterval(updateTime, 1000);
+        
+        // Animate skill bars on load
+        window.addEventListener('load', () => {
+            const skillFills = document.querySelectorAll('.skill-fill');
+            skillFills.forEach((fill, index) => {
+                setTimeout(() => {
+                    fill.style.animationDelay = `${index * 0.1}s`;
+                }, 100);
+            });
+        });
+        
+        // Add some interactive hover effects
+        document.querySelectorAll('.contact-item').forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                item.style.borderLeft = '3px solid #a855f7';
+            });
+            
+            item.addEventListener('mouseleave', () => {
+                item.style.borderLeft = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
